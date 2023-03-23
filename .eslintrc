@@ -1,0 +1,72 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:import/typescript",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "../../components/**",
+            "patternOptions": {
+              "matchBase": true
+            },
+            "group": "parent",
+            "position": "after"
+          },
+          {
+            "pattern": "../../store/**",
+            "patternOptions": {
+              "matchBase": true
+            },
+            "group": "parent",
+            "position": "after"
+          },
+          {
+            "pattern": "../../hooks/**",
+            "patternOptions": {
+              "matchBase": true
+            },
+            "group": "parent",
+            "position": "after"
+          },
+          {
+            "pattern": "@mui/**",
+            "group": "index",
+            "position": "after"
+          },
+          {
+            "pattern": "'../../models/**",
+            "group": "type",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "react",
+          "@mui/**"
+        ],
+        "newlines-between": "always"
+      }
+    ]
+  }
+}
