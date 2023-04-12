@@ -66,7 +66,7 @@ describe('Message component', () => {
 				expect(screen.queryByTestId('message-wrapper')).toBeNull();
 				expect(screen.queryByTestId('message-text')).toBeNull();
 			});
-			test('message is space', () => {
+			test('message is white space', () => {
 				render(
 					<Message
 						message={{ ...testMessage, text: ' ' }}
