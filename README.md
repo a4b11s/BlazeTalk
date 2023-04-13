@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# BlazeTalk
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It`s application allows users to create chat rooms and share message to another users.
+
+### What you can do in this application
+
+You can share your message to another people, send image,video, find new friends in thematic chat rooms
 
 ## Available Scripts
 
