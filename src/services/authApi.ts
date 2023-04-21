@@ -16,7 +16,8 @@ export interface ICredential {
 
 const userMappingFunction = (data: any) => {
     const user: IUser = data.user;
-    return user;
+    const {uid, photoURL, email, displayName} = user
+    return {uid, photoURL, email, displayName};
 };
 
 export const loginWithGoogle = (
