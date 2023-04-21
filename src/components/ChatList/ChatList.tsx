@@ -44,7 +44,7 @@ const ChatList = (props: IProps) => {
                 onAddingModalClose={onAddingModalClose}
             />
             <List sx={{width: '100%'}}>
-                {chatList.map((chat) => {
+                {chatList && chatList.map((chat) => {
                     return (
                         <ChatListItem
                             key={chat.uid}
