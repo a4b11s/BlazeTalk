@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 
-import {sendToDataBase, subscribeBD} from '../services/firebaseApi';
+import {sendToDataBase, subscribeBD} from '../services/firebaseDBApi';
 import {IChat} from '../models';
 
 const defaultMappingDataFunction = (data: any) => {

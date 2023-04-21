@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {sendToDataBase} from "../../services/firebaseApi";
+import {sendToDataBase} from "../../services/firebaseDBApi";
 
 import {useAppDispatch} from '../../store/store';
 import {addUser} from '../../store/userSlice';

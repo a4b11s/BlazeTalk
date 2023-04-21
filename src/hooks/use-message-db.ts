@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 
-import {sendTransaction, subscribeBD} from '../services/firebaseApi';
+import {sendTransaction, subscribeBD} from '../services/firebaseDBApi';
 import {IMessage} from '../models';
 
 const defaultMappingDataFunction = (data: any) => {

@@ -10,7 +10,7 @@ import {useUser} from '../hooks/use-user';
 import {IRootState, useAppDispatch} from '../store/store';
 import {addMessages} from '../store/messageSlice';
 import {useMessageDataBase} from '../hooks/use-message-db';
-import {subscribeBD} from "../services/firebaseApi";
+import {subscribeBD} from "../services/firebaseDBApi";
 
 import {Box} from '@mui/material';
 
