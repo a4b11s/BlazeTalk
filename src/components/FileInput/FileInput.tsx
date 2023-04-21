@@ -27,7 +27,7 @@ const FileInput = (props: IProps) => {
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
-		if (e.target.files) {
+		if (e.target.files?.length) {
 			onFileUploaded(e.target.files);
 		}
 	};
