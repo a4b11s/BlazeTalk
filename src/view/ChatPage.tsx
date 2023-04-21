@@ -27,7 +27,7 @@ const ChatPage = () => {
     });
 
     useEffect(() => {
-        subscribeBD('user/', (users) => {
+        subscribeBD('users/', (users) => {
             setUsers(users);
         }, (data) => {
             const mappedData: IUser[] = Object.keys(data).map((item) => {
