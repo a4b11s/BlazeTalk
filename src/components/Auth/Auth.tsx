@@ -23,7 +23,7 @@ const Auth = (props: IProps) => {
 
     const handleGoogleAuth = () => {
         auth((user) => {
-            sendToDataBase('user/', user)
+            sendToDataBase(`users/${user.uid}`, user)
             dispatch(addUser(user));
         });
         onAuth();
