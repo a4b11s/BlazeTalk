@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {getDatabase, ref, set} from 'firebase/database';
-
-import {app} from '../../services/firebase';
+import {sendToDataBase} from "../../services/firebaseApi";
 
 import {useAppDispatch} from '../../store/store';
 import {addUser} from '../../store/userSlice';
@@ -15,8 +13,6 @@ interface IProps {
     onAuth?: () => void;
 }
 
-const DataBase = getDatabase(app);
-
 const Auth = (props: IProps) => {
     const dispatch = useAppDispatch();
     const {
@@ -27,8 +23,8 @@ const Auth = (props: IProps) => {
 
     const handleGoogleAuth = () => {
         auth((user) => {
+            sendToDataBase('user/', user)
             dispatch(addUser(user));
-            set(ref(DataBase, 'user/' + user.uid), user);
         });
         onAuth();
     };
