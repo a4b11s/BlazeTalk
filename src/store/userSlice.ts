@@ -1,26 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
-import { IUser } from '../models';
+import {IUser} from '../models';
 
 interface IState {
-	user: IUser | null;
+    user: IUser | null;
 }
 
 const initialState: IState = {
-	user: null,
+    user: null,
 };
 
 export const userSlice = createSlice({
-	name: 'customer',
-	initialState,
-	reducers: {
-		addUser: (state, action) => {
-			state.user = action.payload;
-		},
-		removeUser: (state) => {
-			state.user = null;
-		},
-	},
+    name: 'customer',
+    initialState,
+    reducers: {
+        addUser: (state, action) => {
+            state.user = action.payload;
+        },
+        removeUser: (state) => {
+            state.user = null;
+        },
+    },
 });
 
-export const { addUser, removeUser } = userSlice.actions;
+export const {addUser, removeUser} = userSlice.actions;

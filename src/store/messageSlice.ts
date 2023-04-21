@@ -1,23 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
-import { IMessage } from '../models';
+import {IMessage} from '../models';
 
 interface IState {
-	messages: Array<IMessage> | null;
+    messages: Array<IMessage> | null;
 }
 
 const initialState: IState = {
-	messages: null,
+    messages: null,
 };
 
 export const messageSlice = createSlice({
-	name: 'message',
-	initialState,
-	reducers: {
-		addMessages: (state, action) => {
-			state.messages = action.payload;
-		},
-	},
+    name: 'message',
+    initialState,
+    reducers: {
+        addMessages: (state, action) => {
+            state.messages = action.payload;
+        },
+    },
 });
 
-export const { addMessages } = messageSlice.actions;
+export const {addMessages} = messageSlice.actions;

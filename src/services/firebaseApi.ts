@@ -1,29 +1,29 @@
-import { onValue, ref, set, update } from 'firebase/database';
+import {onValue, ref, set, update} from 'firebase/database';
 
-import { DataBase } from './firebase';
+import {DataBase} from './firebase';
 
 export const subscribeBD = (
-	path: string,
-	callback: (data: any) => void,
-	dataMappingFunction: (data: any) => any
+    path: string,
+    callback: (data: any) => void,
+    dataMappingFunction: (data: any) => any
 ) => {
-	return onValue(ref(DataBase, path), (snapshot) => {
-		const data = snapshot.val();
+    return onValue(ref(DataBase, path), (snapshot) => {
+        const data = snapshot.val();
 
-		if (!data) {
-			callback(null);
-			return;
-		}
+        if (!data) {
+            callback(null);
+            return;
+        }
 
-		const mappedData = dataMappingFunction(data);
-		callback(mappedData);
-	});
+        const mappedData = dataMappingFunction(data);
+        callback(mappedData);
+    });
 };
 
 export const sendToDataBase = (path: string, data: any) => {
-	set(ref(DataBase, path), data);
+    set(ref(DataBase, path), data);
 };
 
 export const sendTransaction = (updates: {}) => {
-	return update(ref(DataBase), updates);
+    return update(ref(DataBase), updates);
 };
