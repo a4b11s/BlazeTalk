@@ -38,17 +38,20 @@ const AddNewChat = (props: IProps) => {
 	const [avatarUrl, setAvatarUrl] = useState<string>();
 
 	const onClickCreateBtn = () => {
-		if (!avatar) return;
-		uploadFile(`/chat_avatars/${avatar.name + Date.now()}`, avatar).then(
-			(value) => {
-				const newChat = { name: chatName, chatAvatar: value.ref.fullPath };
-				setChatName('');
-				setAvatar(undefined);
-				setAvatarUrl('');
-				onAddComplete(newChat);
-				onAddingModalClose();
-			}
-		);
+		const newChat = { name: chatName, chatAvatar: '' };
+		if (avatar) {
+			uploadFile(`/chat_avatars/${avatar.name + Date.now()}`, avatar).then(
+				(value) => {
+					newChat.chatAvatar = value.ref.fullPath;
+				}
+			);
+		}
+
+		setChatName('');
+		setAvatar(undefined);
+		setAvatarUrl('');
+		onAddComplete(newChat);
+		onAddingModalClose();
 	};
 
 	const onFileUpload = (FileList: FileList) => {
