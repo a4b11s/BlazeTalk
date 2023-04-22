@@ -26,6 +26,7 @@ const ChatListItem = (props: IProps) => {
 	const [error, setError] = useState('');
 
 	useEffect(() => {
+		if (!chat.chatAvatar) return;
 		try {
 			getFileUrl(chat.chatAvatar).then((url) => {
 				setAvatarUrl(url);
