@@ -1,4 +1,4 @@
-import { ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { storage } from './firebase';
 
@@ -8,4 +8,9 @@ export const uploadFile = (
 ) => {
 	const storageRef = ref(storage, path);
 	return uploadBytes(storageRef, file);
+};
+
+export const getFileUrl = (path: string) => {
+	const storageRef = ref(storage, path);
+	return getDownloadURL(storageRef);
 };
