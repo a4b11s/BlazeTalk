@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { IChat } from '../../models';
 import { getFileUrl } from '../../services/firebaseStorageApi';
 
-import { Avatar, Box, ListItem, Typography } from '@mui/material';
+import { Alert, Avatar, Box, ListItem, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 interface IProps {
@@ -23,15 +23,16 @@ const ChatListItem = (props: IProps) => {
 
 	const theme = useTheme();
 	const [avatarUrl, setAvatarUrl] = useState('');
+	const [error, setError] = useState('');
 
 	useEffect(() => {
-		getFileUrl(chat.chatAvatar)
-			.then((url) => {
+		try {
+			getFileUrl(chat.chatAvatar).then((url) => {
 				setAvatarUrl(url);
-			})
-			.catch(() => {
-				setAvatarUrl('');
 			});
+		} catch (e: any) {
+			setError(e.message);
+		}
 	}, [chat]);
 
 	const wrapperStyle = {
@@ -49,24 +50,27 @@ const ChatListItem = (props: IProps) => {
 	};
 
 	return (
-		<ListItem
-			data-testid="wrapper"
-			sx={wrapperStyle}
-			onClick={() => {
-				onListItemClick(chat.uid);
-			}}
-			key={chat.uid + 'li'}
-		>
-			<Avatar src={avatarUrl} />
-			<Box sx={infoStyle}>
-				<Typography variant="subtitle1">{chat.name}</Typography>
-				<Typography variant="subtitle2" color="gray">
-					{chat.lastMessage.length > 20
-						? chat.lastMessage.slice(0, 20) + '...'
-						: chat.lastMessage}
-				</Typography>
-			</Box>
-		</ListItem>
+		<>
+			{error && <Alert severity="error">{error}</Alert>}
+			<ListItem
+				data-testid="wrapper"
+				sx={wrapperStyle}
+				onClick={() => {
+					onListItemClick(chat.uid);
+				}}
+				key={chat.uid + 'li'}
+			>
+				<Avatar src={avatarUrl} />
+				<Box sx={infoStyle}>
+					<Typography variant="subtitle1">{chat.name}</Typography>
+					<Typography variant="subtitle2" color="gray">
+						{chat.lastMessage.length > 20
+							? chat.lastMessage.slice(0, 20) + '...'
+							: chat.lastMessage}
+					</Typography>
+				</Box>
+			</ListItem>
+		</>
 	);
 };
 
