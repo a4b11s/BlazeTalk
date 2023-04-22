@@ -37,10 +37,10 @@ const AddNewChat = (props: IProps) => {
 	const [avatar, setAvatar] = useState<File>();
 	const [avatarUrl, setAvatarUrl] = useState<string>();
 
-	const onClickCreateBtn = () => {
+	const onClickCreateBtn = async () => {
 		const newChat = { name: chatName, chatAvatar: '' };
 		if (avatar) {
-			uploadFile(`/chat_avatars/${avatar.name + Date.now()}`, avatar).then(
+			await uploadFile(`/chat_avatars/${avatar.name + Date.now()}`, avatar).then(
 				(value) => {
 					newChat.chatAvatar = value.ref.fullPath;
 				}
