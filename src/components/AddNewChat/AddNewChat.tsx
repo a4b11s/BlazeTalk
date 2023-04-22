@@ -41,7 +41,7 @@ const AddNewChat = (props: IProps) => {
 		if (!avatar) return;
 		uploadFile(`/chat_avatars/${avatar.name + Date.now()}`, avatar).then(
 			(value) => {
-				const newChat = { name: chatName, chatAvatar: value.ref.name };
+				const newChat = { name: chatName, chatAvatar: value.ref.fullPath };
 				setChatName('');
 				setAvatar(undefined);
 				setAvatarUrl('');
