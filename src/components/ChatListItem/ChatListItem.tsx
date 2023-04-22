@@ -25,9 +25,13 @@ const ChatListItem = (props: IProps) => {
 	const [avatarUrl, setAvatarUrl] = useState('');
 
 	useEffect(() => {
-		getFileUrl(chat.chatAvatar).then((url) => {
-			setAvatarUrl(url);
-		});
+		getFileUrl(chat.chatAvatar)
+			.then((url) => {
+				setAvatarUrl(url);
+			})
+			.catch(() => {
+				setAvatarUrl('');
+			});
 	}, [chat]);
 
 	const wrapperStyle = {
