@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { IChat } from '../../models';
+import { getFileUrl } from '../../services/firebaseStorageApi';
 
 import { Avatar, Box, ListItem, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -21,6 +22,13 @@ const ChatListItem = (props: IProps) => {
 	} = props;
 
 	const theme = useTheme();
+	const [avatarUrl, setAvatarUrl] = useState('');
+
+	useEffect(() => {
+		getFileUrl(chat.chatAvatar).then((url) => {
+			setAvatarUrl(url);
+		});
+	}, [chat]);
 
 	const wrapperStyle = {
 		ml: '1px',
@@ -45,7 +53,7 @@ const ChatListItem = (props: IProps) => {
 			}}
 			key={chat.uid + 'li'}
 		>
-			<Avatar src={chat.chatAvatar} />
+			<Avatar src={avatarUrl} />
 			<Box sx={infoStyle}>
 				<Typography variant="subtitle1">{chat.name}</Typography>
 				<Typography variant="subtitle2" color="gray">
