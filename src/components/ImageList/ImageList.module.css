@@ -1,0 +1,25 @@
+.listWrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.itemWrapper {
+    width: fit-content;
+    height: 100px;
+    margin: 6px 12px 6px 0;
+    position: relative;
+}
+
+.badge {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 100%;
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 24px;
+    height: 24px;
+}
