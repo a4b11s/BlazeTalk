@@ -1,5 +1,5 @@
 .wrapper {
     display: grid;
-    grid-auto-rows: 80% 20%;
+    grid-auto-rows: auto fit-content(20%);
     height: 100%;
 }
