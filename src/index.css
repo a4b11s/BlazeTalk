@@ -11,7 +11,7 @@ body {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-auto-columns: 250px 1fr 1fr;
+    grid-auto-columns: fit-content(250px) auto;
     grid-auto-rows: 70px calc(100% - 100px) 30px;
     grid-template-areas:
             "Header Header Header"
@@ -28,6 +28,7 @@ body {
 }
 
 #sidebar {
+    border-right: 1px solid rgb(200 200 200);
     grid-area: SideBar;
     overflow: hidden;
     display: flex;
