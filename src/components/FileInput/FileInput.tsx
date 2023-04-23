@@ -29,6 +29,7 @@ const FileInput = (props: IProps) => {
 		e.preventDefault();
 		if (e.target.files?.length) {
 			onFileUploaded(e.target.files);
+			e.target.value = '';
 		}
 	};
 
