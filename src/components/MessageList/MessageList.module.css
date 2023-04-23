@@ -1,0 +1,6 @@
+.wrapper {
+    overflow-y: scroll;
+    background-color: rgb(230 251 255 / 50%);
+    display: flex;
+    flex-direction: column;
+}
