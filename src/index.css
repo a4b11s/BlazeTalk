@@ -8,21 +8,28 @@ body {
 }
 
 #root {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-auto-columns: 250px 1fr 1fr;
+    grid-auto-rows: 70px calc(100% - 100px) 30px;
+    grid-template-areas:
+            "Header Header Header"
+            "SideBar Main Main"
+            "Footer Footer Footer";
+}
+
+#header {
+    grid-area: Header;
 }
 
 #main {
-    display: flex;
-    flex-grow: 1;
+    grid-area: Main;
 }
 
 #sidebar {
+    grid-area: SideBar;
     overflow: hidden;
-    max-width: 15%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -31,5 +38,10 @@ body {
 }
 
 #content {
-    flex-grow: 1;
+    display: grid;
+    grid-template-rows: repeat(12, 1fr);
+}
+
+#footer {
+    grid-area: Footer;
 }
