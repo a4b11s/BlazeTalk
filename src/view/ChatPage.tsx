@@ -44,8 +44,9 @@ const ChatPage = () => {
 		);
 	}, []);
 
-	const onMessageSend = (text: string) => {
-		sendMessage(chatId!, uid!, text);
+	const onMessageSend = (text: string, imageArray?: Array<File>) => {
+		if (!chatId || !uid) return;
+		sendMessage(chatId, uid, text, imageArray);
 	};
 
 	return (
