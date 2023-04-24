@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { getFileUrl } from '../../services/firebaseStorageApi';
+import { getFilesUrls } from '../../services/firebaseStorageApi';
 
 import {
+	Alert,
 	Avatar,
 	Box,
 	ImageList,
 	ImageListItem,
 	Paper,
+	Skeleton,
 	Typography,
 } from '@mui/material';
 
@@ -24,23 +26,39 @@ interface IProps {
 const Message = (props: IProps) => {
 	const { message, isAuthor, author, isScrollTo } = props;
 	const { text, images } = message;
+
 	const ref = useRef<HTMLDivElement>(null);
+
 	const [imageArray, setImageArray] = useState<Array<string | undefined>>();
+	const [isLoading, setIsLoading] = useState<boolean>();
+	const [error, setError] = useState<string | undefined>();
 
 	useEffect(() => {
 		if (ref.current && isScrollTo) {
 			ref.current.scrollIntoView();
 		}
-	}, [ref, isScrollTo]);
+	}, [ref, isScrollTo, imageArray]);
 
 	useEffect(() => {
-		if (!images) return;
+		if (!images?.length) return;
+
+		setError(undefined);
+		setIsLoading(true);
+
 		try {
-			getFileUrl(images[0]).then((url) => {
-				setImageArray([url]);
-			});
-		} catch (e: any) {
-			// setError(e.message);
+			getFilesUrls([...images])
+				.then((url) => {
+					setImageArray(url);
+					setIsLoading(false);
+				})
+
+				.catch((error) => {
+					setError(error.message);
+					setIsLoading(false);
+				});
+		} catch (error: any) {
+			setError(error.message);
+			setIsLoading(false);
 		}
 	}, [images]);
 
@@ -53,7 +71,6 @@ const Message = (props: IProps) => {
 	};
 	if (!message.text.trim() && !images?.length) return null;
 	if (!author.displayName) return null;
-
 	return (
 		<Paper data-testid="message-wrapper" ref={ref} sx={wrapperStyles}>
 			<Box display="flex" alignItems="center">
@@ -70,16 +87,32 @@ const Message = (props: IProps) => {
 			>
 				{text}
 			</Typography>
-			{imageArray && (
-				<ImageList sx={{ height: 'fit-content' }} cols={4}>
-					{imageArray?.map((img, index) => {
-						return (
-							<ImageListItem sx={{ height: 'fit-content' }} key={img}>
-								<img height="150px" src={img} alt={`attachment #${index}`} />
-							</ImageListItem>
-						);
-					})}
-				</ImageList>
+			{error ? (
+				<Alert severity="error">{error}</Alert>
+			) : isLoading ? (
+				<Box display="flex" flexWrap="wrap">
+					{[...Array(images?.length)].map((_, index) => (
+						<Skeleton
+							sx={{ m: '3px' }}
+							key={index + 'skeleton'}
+							variant="rectangular"
+							height={150}
+							width={100}
+						/>
+					))}
+				</Box>
+			) : (
+				imageArray && (
+					<ImageList sx={{ height: 'fit-content' }} cols={4}>
+						{imageArray?.map((img, index) => {
+							return (
+								<ImageListItem sx={{ height: 'fit-content' }} key={img}>
+									<img height="150px" src={img} alt={`attachment #${index}`} />
+								</ImageListItem>
+							);
+						})}
+					</ImageList>
+				)
 			)}
 		</Paper>
 	);
