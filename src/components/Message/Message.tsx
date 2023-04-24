@@ -1,27 +1,48 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { Avatar, Box, Paper, Typography } from '@mui/material';
+import { getFileUrl } from '../../services/firebaseStorageApi';
+
+import {
+	Avatar,
+	Box,
+	ImageList,
+	ImageListItem,
+	Paper,
+	Typography,
+} from '@mui/material';
 
 interface IProps {
 	author: {
 		displayName: string;
 		photoURL: string;
 	};
-	message: { text: string };
+	message: { text: string; images?: Array<string> };
 	isAuthor: boolean;
 	isScrollTo: boolean;
 }
 
 const Message = (props: IProps) => {
 	const { message, isAuthor, author, isScrollTo } = props;
-	const { text } = message;
+	const { text, images } = message;
 	const ref = useRef<HTMLDivElement>(null);
+	const [imageArray, setImageArray] = useState<Array<string | undefined>>();
 
 	useEffect(() => {
 		if (ref.current && isScrollTo) {
 			ref.current.scrollIntoView();
 		}
 	}, [ref, isScrollTo]);
+
+	useEffect(() => {
+		if (!images) return;
+		try {
+			getFileUrl(images[0]).then((url) => {
+				setImageArray([url]);
+			});
+		} catch (e: any) {
+			// setError(e.message);
+		}
+	}, [images]);
 
 	const wrapperStyles = {
 		borderRadius: `30px 30px ${isAuthor ? '0 30px' : '30px 0'};`,
@@ -30,7 +51,7 @@ const Message = (props: IProps) => {
 		padding: 2,
 		m: 3,
 	};
-	if (!message.text.trim()) return null;
+	if (!message.text.trim() && !images?.length) return null;
 	if (!author.displayName) return null;
 
 	return (
@@ -49,6 +70,17 @@ const Message = (props: IProps) => {
 			>
 				{text}
 			</Typography>
+			{imageArray && (
+				<ImageList sx={{ height: 'fit-content' }} cols={4}>
+					{imageArray?.map((img, index) => {
+						return (
+							<ImageListItem sx={{ height: 'fit-content' }} key={img}>
+								<img height="150px" src={img} alt={`attachment #${index}`} />
+							</ImageListItem>
+						);
+					})}
+				</ImageList>
+			)}
 		</Paper>
 	);
 };
