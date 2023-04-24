@@ -3,11 +3,12 @@ import React, { FormEvent, useState } from 'react';
 import FileInput from '../FileInput/FileInput';
 import ImageList from '../ImageList/ImageList';
 
-import { Box, IconButton, TextField } from '@mui/material';
+import { Box, CircularProgress, IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 interface IProps {
 	onSend: (message: string, imageArray?: Array<File>) => void;
+	isSending?: boolean;
 }
 
 interface IImage {
@@ -17,9 +18,11 @@ interface IImage {
 }
 
 const MessageInput = (props: IProps) => {
-	const { onSend } = props;
+	const { onSend, isSending } = props;
 	const [messageText, setMessageText] = useState('');
-	const [messageImages, setMessageImages] = useState<Array<IImage> | null>(null);
+	const [messageImages, setMessageImages] = useState<
+		Array<IImage> | undefined
+	>();
 
 	const onMessageTextChange = (event: any) => {
 		setMessageText(event.target.value);
@@ -39,6 +42,7 @@ const MessageInput = (props: IProps) => {
 				uid: Symbol(file.name),
 			});
 		});
+
 		setMessageImages((prevState) => {
 			if (!prevState) return imageArray;
 			return [...prevState, ...imageArray];
@@ -47,7 +51,7 @@ const MessageInput = (props: IProps) => {
 
 	const onImageDelete = (uid: symbol) => {
 		setMessageImages((prevState) => {
-			if (!prevState) return null;
+			if (!prevState) return undefined;
 
 			const deletingImageIndex = prevState?.findIndex(
 				(image) => image.uid === uid
@@ -66,6 +70,7 @@ const MessageInput = (props: IProps) => {
 		if (messageImages) {
 			const messageFile: Array<File> = messageImages?.map((image) => image.file);
 			onSend(messageText, messageFile);
+			setMessageImages(undefined);
 		} else {
 			onSend(messageText);
 		}
@@ -88,11 +93,15 @@ const MessageInput = (props: IProps) => {
 					/>
 					<FileInput multiple accept="image/*" onFileUploaded={onFileUploaded} />
 					<IconButton
-						disabled={messageText.trim() === '' && messageImages === null}
+						sx={{ position: 'relative' }}
+						disabled={messageText.trim() === '' && messageImages === undefined}
 						type="submit"
 						aria-label="send"
 						color="secondary"
 					>
+						{isSending && (
+							<CircularProgress size={50} sx={{ position: 'absolute' }} />
+						)}
 						<SendIcon fontSize="large" />
 					</IconButton>
 				</form>
