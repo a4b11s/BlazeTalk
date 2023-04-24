@@ -23,6 +23,7 @@ const ChatPage = () => {
 	const messages = useSelector<IRootState>((state) => state.message.messages);
 	const [users, setUsers] = useState<IUser[] | null>(null);
 	const { sendMessage, useSubMessage } = useMessageDataBase();
+	const [isSending, setIsSending] = useState<boolean>(false);
 
 	useSubMessage(chatId!, (messages) => {
 		dispatch(addMessages(messages));
@@ -46,13 +47,16 @@ const ChatPage = () => {
 
 	const onMessageSend = (text: string, imageArray?: Array<File>) => {
 		if (!chatId || !uid) return;
-		sendMessage(chatId, uid, text, imageArray);
+		setIsSending(true);
+		sendMessage(chatId, uid, text, imageArray).then(() => {
+			setIsSending(false);
+		});
 	};
 
 	return (
 		<Box className={classes.wrapper}>
 			<MessageList users={users} messageArray={messages as IMessage[]} />
-			<MessageInput onSend={onMessageSend} />
+			<MessageInput isSending={isSending} onSend={onMessageSend} />
 		</Box>
 	);
 };
