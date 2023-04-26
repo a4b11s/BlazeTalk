@@ -27,7 +27,7 @@ const MessageList = (props: IProps) => {
 
 				return (
 					<Message
-						isScrollTo={index === messageArray.length - 1}
+						isLast={index === messageArray?.length - 1}
 						key={item.uid}
 						author={user}
 						message={item}
