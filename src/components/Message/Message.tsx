@@ -8,6 +8,7 @@ import {
 	Alert,
 	Avatar,
 	Box,
+	Grid,
 	ImageList,
 	ImageListItem,
 	Paper,
@@ -103,17 +104,18 @@ const Message = (props: IProps) => {
 				{error ? (
 					<Alert severity="error">{error}</Alert>
 				) : isLoading ? (
-					<Box display="flex" flexWrap="wrap">
+					<Grid container>
 						{[...Array(images?.length)].map((_, index) => (
-							<Skeleton
-								sx={{ m: '3px' }}
-								key={index + 'skeleton'}
-								variant="rectangular"
-								height={150}
-								width={100}
-							/>
+							<Grid item xs={3} key={index + 'skeleton'}>
+								<Skeleton
+									sx={{ m: '3px' }}
+									variant="rectangular"
+									height={150}
+									width={100}
+								/>
+							</Grid>
 						))}
-					</Box>
+					</Grid>
 				) : (
 					imageArray && (
 						<ImageList sx={{ height: 'fit-content' }} cols={4}>
